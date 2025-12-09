@@ -4,13 +4,19 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h2>Welcome, {{ user }}!</h2>
 
-    <p>This is your dashboard.</p>
+<h2>Welcome, {{ user }}!</h2>
+<p>This is your dashboard.</p>
 
-    <!-- Insecure: XSS allowed using |safe -->
-    <p>Your note: {{ user_note|safe }}</p>
+<form method="POST">
+    <p>Your note:</p>
+    <textarea name="note" rows="4" cols="40"></textarea><br><br>
+    <button type="submit">Save note</button>
+</form>
 
-    <a href="/">Logout</a>
+<p>Last saved note: {{ last_note | e }}</p>
+
+<a href="/logout">Logout</a>
+
 </body>
 </html>
