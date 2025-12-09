@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user }}!</h2>
+
+    <p>This is your dashboard.</p>
+
+    <!-- Insecure: XSS allowed using |safe -->
+    <p>Your note: {{ user_note|safe }}</p>
+
+    <a href="/">Logout</a>
+</body>
+</html>
