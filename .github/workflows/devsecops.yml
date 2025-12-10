@@ -1,0 +1,44 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  SAST_Check:
+    name: Static Analysis (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Bandit (Python security scanner)
+        uses: pypa/gh-action-pypi-bandit@v1.0.0
+        with:
+          targets: .
+
+  SCA_Check:
+    name: Dependency Vulnerability Scan (SCA)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run Safety (Python dependency scanner)
+        uses: pyupio/safety-action@v1.4.0
+        with:
+          args: --full-report
+
+  DAST_Check:
+    name: Dynamic Application Security Test (DAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: "http://127.0.0.1:5000"
